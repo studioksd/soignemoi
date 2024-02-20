@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier de {{ user.nom }} {{ user.prenom }} {% endblock %}
+
+{% block content %}
+    <h1>Dossier de {{ user.nom }} {{ user.prenom }}</h1>
+    <hr>
+    <h3>Informations personnelles</h3>
+    <hr>
+
+    <hr>
+    <h3>Liste des séjours</h3>
+    {% if sejours is empty %}
+        <p>Aucun séjour trouvé.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Motif</th>
+                    <th>Spécialité nécessaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sejour in sejours %}
+                    <tr>
+                        <td>{{ sejour.dateDebut|date('d/m/Y') }}</td>
+                        <td>{{ sejour.dateFin|date('d/m/Y') }}</td>
+                        <td>{{ sejour.motif }}</td>
+                        <td>{{ sejour.specialiteNecessaire }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <h3>Prescriptions et avis du médecin</h3>
+    <hr>
+
+    <hr>
+    
+{% endblock %}

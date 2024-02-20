@@ -41,9 +41,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Sejour::class)]
     private Collection $sejours;
 
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: AvisMedecin::class)]
+    private Collection $avisMedecins;
+
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Prescription::class)]
+    private Collection $prescriptions;
+
     public function __construct()
     {
         $this->sejours = new ArrayCollection();
+        $this->avisMedecins = new ArrayCollection();
+        $this->prescriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,6 +184,66 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sejour->getUtilisateur() === $this) {
                 $sejour->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AvisMedecin>
+     */
+    public function getAvisMedecins(): Collection
+    {
+        return $this->avisMedecins;
+    }
+
+    public function addAvisMedecin(AvisMedecin $avisMedecin): static
+    {
+        if (!$this->avisMedecins->contains($avisMedecin)) {
+            $this->avisMedecins->add($avisMedecin);
+            $avisMedecin->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvisMedecin(AvisMedecin $avisMedecin): static
+    {
+        if ($this->avisMedecins->removeElement($avisMedecin)) {
+            // set the owning side to null (unless already changed)
+            if ($avisMedecin->getPatient() === $this) {
+                $avisMedecin->setPatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prescription>
+     */
+    public function getPrescriptions(): Collection
+    {
+        return $this->prescriptions;
+    }
+
+    public function addPrescription(Prescription $prescription): static
+    {
+        if (!$this->prescriptions->contains($prescription)) {
+            $this->prescriptions->add($prescription);
+            $prescription->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrescription(Prescription $prescription): static
+    {
+        if ($this->prescriptions->removeElement($prescription)) {
+            // set the owning side to null (unless already changed)
+            if ($prescription->getPatient() === $this) {
+                $prescription->setPatient(null);
             }
         }
 

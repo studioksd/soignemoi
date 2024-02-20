@@ -26,6 +26,10 @@ class AvisMedecin
     #[ORM\ManyToOne(inversedBy: 'avisMedecins')]
     private ?Medecin $medecin = null;
 
+    #[ORM\ManyToOne(inversedBy: 'avisMedecins')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $patient = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +79,18 @@ class AvisMedecin
     public function setMedecin(?Medecin $medecin): static
     {
         $this->medecin = $medecin;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Utilisateur
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Utilisateur $patient): static
+    {
+        $this->patient = $patient;
 
         return $this;
     }

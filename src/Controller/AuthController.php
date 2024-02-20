@@ -51,7 +51,6 @@ class AuthController extends AbstractController
                 $plaintextPassword
             );
             $user->setPassword($hashedPassword);
-            $user->setRoles(['ROLE_ADMIN']);
 
             $entityManager = $this->entityManager;
             $entityManager->persist($user);

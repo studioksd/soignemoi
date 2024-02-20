@@ -142,7 +142,7 @@
                      <li class="nav-item">
                         <a href="{{path('user_dashboard')}}" class="nav-link">
                         <span class="fa fa-user-o"></span>
-                        <p>
+                        <p>&nbsp;
                         Mon espace
                         </p>
                         </a>
@@ -150,25 +150,58 @@
                     <li class="nav-item">
                         <a href="{{path('sejour_create')}}" class="nav-link">
                         <span class="fa fa-calendar-plus-o"></span>
-                        <p>
+                        <p>&nbsp;
                         Nouveau séjour
                         </p>
                         </a>
                     </li>
+                    
                     {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                    <hr>
+                    </li>
                     <li class="nav-item">
                         <a href="{{path('medecin_index')}}" class="nav-link">
                         <span class="fa fa-heartbeat"></span>
-                        <p>
+                        <p>&nbsp;
                         Médecins
                         </p>
                         </a>
                     </li>
                     {% endif %}
+                    {% if is_granted('ROLE_SECRETAIRE') %}
+                    <li>
+                    <hr>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{path('sejour_index')}}" class="nav-link">
+                        <span class="fa fa-calendar"></span>
+                        <p>&nbsp;
+                        Planning
+                        </p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MEDECIN') %}
+                    <li>
+                    <hr>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{path('prescription_create')}}" class="nav-link">
+                        <span class="fa fa-calendar"></span>
+                        <p>&nbsp;
+                        Nouvelle prescription
+                        </p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                    <hr>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ path('app_logout') }}"  class="nav-link" style="color: #dc3545;">
                         <span class="fa fa-sign-out"></span>
-                        <p>
+                        <p>&nbsp;
                         Déconnexion
                         </p>
                         </a>

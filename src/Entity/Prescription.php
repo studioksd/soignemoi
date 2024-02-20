@@ -19,9 +19,6 @@ class Prescription
     #[ORM\ManyToOne(inversedBy: 'prescriptions')]
     private ?Medecin $medecin = null;
 
-    #[ORM\ManyToOne(inversedBy: 'prescriptions')]
-    private ?Utilisateur $patient = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateDebut = null;
 
@@ -30,6 +27,10 @@ class Prescription
 
     #[ORM\OneToMany(targetEntity: Medicament::class, mappedBy: 'prescription')]
     private Collection $medicaments;
+
+    #[ORM\ManyToOne(inversedBy: 'prescriptions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $patient = null;
 
     public function __construct()
     {

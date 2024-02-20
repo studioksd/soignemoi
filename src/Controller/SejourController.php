@@ -19,7 +19,7 @@ class SejourController extends AbstractController
     }
 
     #[Route(path: '/sejour/create', name: 'sejour_create')]
-    public function createSejour(Request $request): Response
+    public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -46,6 +46,18 @@ class SejourController extends AbstractController
         // Render a form template to create a new Sejour
         return $this->render('sejour/create.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route(path: '/sejour/index', name: 'sejour_index')]
+    public function index(): Response
+    {
+        // Get all Medecins from the database
+        $sejours = $this->entityManager->getRepository(Sejour::class)->findAll();
+
+        // Render the template and pass the Medecins to it
+        return $this->render('sejour/index.html.twig', [
+            'sejours' => $sejours,
         ]);
     }
 }

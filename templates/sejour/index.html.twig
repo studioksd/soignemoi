@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning de la journée{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between;align-items: center; margin-bottom: 15px;">
+    <h1>Planning de la journée</h1>
+    </div>
+    <hr>
+    <h4>Planning des entrées</h4>
+    <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Médecin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sejour in sejours %}
+                    {% if sejour.dateDebut|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                    <tr>
+                        <td>{{ sejour.utilisateur.nom }} {{ sejour.utilisateur.prenom }}</td>
+                        <td>{{ sejour.medecin.nom }} {{ sejour.medecin.prenom }}</td>
+                        <td>
+                            <a href="{{ path('user_show', {'id': sejour.utilisateur.id}) }}">Dossier patient</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+<hr>
+    <h4>Planning des sorties</h4>
+    <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Médecin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sejour in sejours %}
+                    {% if sejour.dateFin|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                    <tr>
+                        <td>{{ sejour.utilisateur.nom }} {{ sejour.utilisateur.prenom }}</td>
+                        <td>{{ sejour.medecin.nom }} {{ sejour.medecin.prenom }}</td>
+                        <td>
+                            <a href="{{ path('user_show', {'id': sejour.utilisateur.id}) }}">Dossier patient</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
