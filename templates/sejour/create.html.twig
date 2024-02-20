@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<form method="POST" action="{{ path('sejour_create') }}">
+{% include 'sejour/form.html.twig' %}
+</form>
+
+{% endblock %}

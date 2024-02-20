@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<form method="POST" action="{{ path('medecin_create') }}">
+{% include 'medecin/form.html.twig' %}
+
+</form>
+
+{% endblock %}

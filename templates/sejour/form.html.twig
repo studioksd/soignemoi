@@ -1,0 +1,53 @@
+{# form/sejour_form.html.twig #}
+
+{{ form_start(form) }}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.dateDebut) }}
+            {{ form_widget(form.dateDebut, { 'attr': {'class': 'form-control datetimepicker'} }) }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.dateFin) }}
+            {{ form_widget(form.dateFin, { 'attr': {'class': 'form-control datetimepicker'} }) }}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.motif) }}
+            {{ form_widget(form.motif, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.specialiteNecessaire) }}
+            {{ form_widget(form.specialiteNecessaire, { 'attr': {'class': 'form-control select2'} }) }}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.medecin) }}
+            {{ form_widget(form.medecin, { 'attr': {'class': 'form-control select2'} }) }}
+        </div>
+    </div>
+</div>
+
+<div style="display:none;">
+{{ form_rest(form) }}
+
+</div>
+
+    <button class="btn btn-info" type="submit" {% if app.user %}{% else %}disabled='true'{% endif %}>Valider</button>
+
+{{ form_end(form) }}

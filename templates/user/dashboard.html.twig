@@ -1,0 +1,33 @@
+{# templates/sejour/list.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des séjours{% endblock %}
+
+{% block content %}
+    <h1>Liste des séjours</h1>
+    {% if sejours is empty %}
+        <p>Aucun séjour trouvé.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Motif</th>
+                    <th>Spécialité nécessaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sejour in sejours %}
+                    <tr>
+                        <td>{{ sejour.dateDebut|date('d/m/Y') }}</td>
+                        <td>{{ sejour.dateFin|date('d/m/Y') }}</td>
+                        <td>{{ sejour.motif }}</td>
+                        <td>{{ sejour.specialiteNecessaire }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
