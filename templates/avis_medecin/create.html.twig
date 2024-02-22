@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+<form  action="{{ path('avis_medecin_create', {'prescriptionId': prescriptionId, 'patientId': patientId, 'medecinId': medecinId}) }}" method="post">
+<div class="col-md-6">
+            {{ form_start(avisMedecinForm) }}
+            <h2>Avis du médecin</h2>
+            <div class="form-group">
+                {{ form_label(avisMedecinForm.libelle) }}
+                {{ form_widget(avisMedecinForm.libelle, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(avisMedecinForm.date) }}
+                {{ form_widget(avisMedecinForm.date, {'attr': {'class': 'form-control datetimepicker'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(avisMedecinForm.description) }}
+                {{ form_widget(avisMedecinForm.description, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(avisMedecinForm.medecin) }}
+                {{ form_widget(avisMedecinForm.medecin, {'attr': {'class': 'form-control select2'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(avisMedecinForm.patient) }}
+                {{ form_widget(avisMedecinForm.patient, {'attr': {'class': 'form-control select2'}}) }}
+            </div>
+                            <button type="submit" class="btn btn-primary">Valider l'avis</button>
+
+            {{ form_end(avisMedecinForm) }}
+        </div>
+</form>
+
+{% endblock %}

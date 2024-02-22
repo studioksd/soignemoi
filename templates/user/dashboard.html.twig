@@ -1,0 +1,80 @@
+{# templates/sejour/list.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des séjours{% endblock %}
+    
+{% block content %}
+   <h1>Liste des séjours</h1>
+   <br>
+
+{% set currentSejours = [] %}
+{% set upcomingSejours = [] %}
+{% set pastSejours = [] %}
+
+{% for sejour in sejours %}
+    {% if sejour.dateDebut <= "now" and sejour.dateFin >= "now" %}
+        {% set currentSejours = currentSejours|merge([sejour]) %}
+    {% elseif sejour.dateDebut > "now" %}
+        {% set upcomingSejours = upcomingSejours|merge([sejour]) %}
+    {% else %}
+        {% set pastSejours = pastSejours|merge([sejour]) %}
+    {% endif %}
+{% endfor %}
+
+{% if sejours is empty %}
+        <p>Aucun séjour trouvé.</p>
+    {% else %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Motif</th>
+            <th>Spécialité nécessaire</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if currentSejours %}
+            <tr><th colspan="5" style="background-color: lightblue;">Séjour en cours</th></tr>
+            {% for sejour in currentSejours %}
+                <tr>
+                    <td>{{ sejour.dateDebut|date('d/m/Y') }}</td>
+                    <td>{{ sejour.dateFin|date('d/m/Y') }}</td>
+                    <td>{{ sejour.motif }}</td>
+                    <td>{{ sejour.specialiteNecessaire }}</td>
+                    <td>En cours</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        
+        {% if upcomingSejours %}
+            <tr><th colspan="5" style="background-color: lightblue;">Séjours à venir</th></tr>
+            {% for sejour in upcomingSejours %}
+                <tr>
+                    <td>{{ sejour.dateDebut|date('d/m/Y') }}</td>
+                    <td>{{ sejour.dateFin|date('d/m/Y') }}</td>
+                    <td>{{ sejour.motif }}</td>
+                    <td>{{ sejour.specialiteNecessaire }}</td>
+                    <td>À venir</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        
+        {% if pastSejours %}
+            <tr><th colspan="5" style="background-color: lightblue;">Séjours passés</th></tr>
+            {% for sejour in pastSejours %}
+                <tr>
+                    <td>{{ sejour.dateDebut|date('d/m/Y') }}</td>
+                    <td>{{ sejour.dateFin|date('d/m/Y') }}</td>
+                    <td>{{ sejour.motif }}</td>
+                    <td>{{ sejour.specialiteNecessaire }}</td>
+                    <td>Passé</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+ {% endif %}
+{% endblock %}

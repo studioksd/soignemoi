@@ -1,17 +1,239 @@
 <!DOCTYPE html>
-<html>
-    <head>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <title>{% block title %}SoigneMoi{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="{{ asset('custom/css/style.css') }}" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css?20210317') }}" rel="stylesheet" type="text/css" >
+        <style>
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 48px;
+            user-select: none;
+            -webkit-user-select: none;
+            width: 100%;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 10px;
+            right: 1px;
+            width: 20px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            height: auto;
+            margin-top: 2px;
+        }
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #80808052;
+            border-radius: 4px;
+        }
+        .select2-container--default.select2-container--open .select2-selection--single {
+            border-color: #ff6c0052;
+        }
+        .select2-container--default.select2-container--focus .select2-selection--single {
+            border-color: #ff6c0052;
+        }
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            border: 1px solid #ff6c0052;
+        }
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #ff6c0052;
+            color: white;
+        }
+        .select2-container--default .select2-results__option--highlighted[aria-selected], .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
+            background-color: #ff6c0052;
+            color: #fff;
+        }
+        .form-control {
+            height: 48px;
+          }
+        </style>
         {% endblock %}
 
         {% block javascripts %}
-{% block importmap %}{{ importmap('app') }}{% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+        <script src="{{ asset('plugins/bootstrap-datepicker/locales/bootstrap-datepicker.fr.min.js') }}" charset="UTF-8"></script>
+        <script>
+        $(document).ready(function() {
+            $(".select2").select2({
+                width: '100%',
+            });
+            // DateTime Picker
+            $('.datetimepicker').datepicker({
+                startDate: '01/01/1919/',
+                endDate: '01/01/2119/',
+                format: 'dd/mm/yyyy',
+                
+                language: 'fr',
+                autoclose: true,
+                placement: 'bottom'
+            });
+            $('.datetimepicker').attr('placeholder','jj/mm/aaaa');
+            $('.datetimepicker').keyup(function() {
+                var nb_car = $(this).val().length;
+                if(nb_car == 2 || nb_car == 5) {
+                    $(this).val($(this).val()+'/');
+                }
+            });
+            $('.nav-tabs a').on('click', function (e) {
+                e.preventDefault();
+                var targetTab = $(this).attr('href');
+                $('.nav-tabs a').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-pane').removeClass('show active');
+                $(targetTab).addClass('show active');
+            });
+        });
+        </script>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+</head>
+{% block body %}
+<body>
+    <section id="main-wrapper" class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <div class="container-fluid">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">   
+                <a href="{{path('home')}}"><h3 class="m-auto"><i class="fa fa-heartbeat"></i>&nbsp;SoigneMoi&nbsp;</h3></a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if is_granted('ROLE_USER') %}
+            <li class="nav-item">
+            <span class="nav-link">{{ app.user.nom|upper }} {{ app.user.prenom|capitalize }}</span>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a href="{{ path('app_login') }}" class="btn btn-success">Connexion</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <div class="sidebar">
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                     {% if is_granted('ROLE_VISITEUR') %}
+                     <li class="nav-item">
+                        <a href="{{path('user_dashboard')}}" class="nav-link">
+                        <span class="fa fa-user-o"></span>
+                        <p>&nbsp;
+                        Mon espace
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{path('sejour_create')}}" class="nav-link">
+                        <span class="fa fa-calendar-plus-o"></span>
+                        <p>&nbsp;
+                        Nouveau séjour
+                        </p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a href="{{path('medecin_index')}}" class="nav-link">
+                        <span class="fa fa-user-md"></span>
+                        <p>&nbsp;
+                        Médecins
+                        </p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_SECRETAIRE') %}
+                    <li class="nav-item">
+                        <a href="{{path('sejour_index')}}" class="nav-link">
+                        <span class="fa fa-calendar"></span>
+                        <p>&nbsp;
+                        Planning
+                        </p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MEDECIN') %}
+                    <li class="nav-item">
+                        <a href="{{path('prescription_create')}}" class="nav-link">
+                        <span class="fa fa-medkit"></span>
+                        <p>&nbsp;
+                        Nouvelle prescription
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{path('user_index')}}" class="nav-link">
+                        <span class="fa fa-folder-open-o"></span>
+                        <p>&nbsp;
+                        Dossiers patients
+                        </p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_logout') }}"  class="nav-link" style="color: #dc3545;">
+                        <span class="fa fa-sign-out"></span>
+                        <p>&nbsp;
+                        Déconnexion
+                        </p>
+                        </a>
+                    </li>
+                    </ul> 
+                    </nav>
+            </div>
+        </aside>
+        <div class="content-wrapper" style="padding: 3%;">
+                {% block content %} 
+<div class="row">
+    <div class="col-md-12" style="display:flex; flex-direction: column;align-items: center;">
+        <h2>Bienvenue sur SoigneMoi !</h2>
+        <div style="margin-bottom: 15px;">
+        <img src="https://images.pexels.com/photos/6129237/pexels-photo-6129237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="soignemoi" class="img-fluid" width="450px">
+        </div>
+        <br>
+        <p>Facilitez la planification de vos visites à l'hôpital.</p>
+        <p>Avec SoigneMoi, vous pouvez :</p>
+        <ul>
+            <li>Planifier facilement des rendez-vous médicaux</li>
+            <li>Consulter votre calendrier de rendez-vous à tout moment</li>
+            <li>Recevoir des rappels pour vos prochaines visites</li>
+            <li>Gérer vos informations médicales en toute sécurité</li>
+        </ul>
+        <p>Que vous soyez un patient, un aidant ou un professionnel de la santé, SoigneMoi est là pour simplifier votre expérience de planification des visites médicales.</p>
+        <p>Nous vous souhaitons une excellente utilisation de notre application !</p>
+        <br>
+        <a class="btn btn-success" href="{{ path('app_register')}}">Inscription</a>
+    </div>
+</div>
+{% endblock content %}
+
+        </div>
+    </section>
+</body>
+{% endblock body %}
 </html>

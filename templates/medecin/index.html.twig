@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des médecins{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between;align-items: center; margin-bottom: 15px;">
+    <h1>Liste des médecins</h1>
+    <a href="{{path('medecin_create')}}" class="btn btn-info">
+        <i class="fa fa-user-plus"></i>&nbsp;Nouveau médecin
+    </a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Spécialité</th>
+                <th>Matricule</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medecin in medecins %}
+                <tr>
+                    <td>{{ medecin.nom }}</td>
+                    <td>{{ medecin.prenom }}</td>
+                    <td>{{ medecin.specialite }}</td>
+                    <td>{{ medecin.matricule }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun médecin trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
