@@ -21,7 +21,7 @@ class SejourController extends AbstractController
     #[Route(path: '/sejour/create', name: 'sejour_create')]
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_VISITEUR');
 
         $sejour = new Sejour();
 

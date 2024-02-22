@@ -57,7 +57,7 @@ class SejourType extends AbstractType
             ->add('medecin', EntityType::class, [
                 'class' => Medecin::class,
                 'choice_label' => function ($medecin) {
-                    return $medecin->getNom() . ' ' . $medecin->getPrenom() . ' - ' . $medecin->getSpecialite();
+                    return 'Dr. ' . strtoupper($medecin->getNom()) . ' ' . ucfirst(strtolower($medecin->getPrenom())) . ' - ' . $medecin->getSpecialite();
                 },
             ])
         ;

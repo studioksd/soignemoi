@@ -25,17 +25,15 @@ class Prescription
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateFin = null;
 
-    #[ORM\OneToMany(targetEntity: Medicament::class, mappedBy: 'prescription')]
-    private Collection $medicaments;
-
     #[ORM\ManyToOne(inversedBy: 'prescriptions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $patient = null;
 
-    public function __construct()
-    {
-        $this->medicaments = new ArrayCollection();
-    }
+    #[ORM\Column(nullable: true)]
+    private ?array $medicaments = null;
+
+    #[ORM\OneToOne(inversedBy: 'prescription', cascade: ['persist', 'remove'])]
+    private ?AvisMedecin $avis_medecin = null;
 
     public function getId(): ?int
     {
@@ -90,33 +88,28 @@ class Prescription
         return $this;
     }
 
-    /**
-     * @return Collection<int, Medicament>
-     */
-    public function getMedicaments(): Collection
+    public function getMedicaments(): ?array
     {
         return $this->medicaments;
     }
 
-    public function addMedicament(Medicament $medicament): static
+    public function setMedicaments(?array $medicaments): static
     {
-        if (!$this->medicaments->contains($medicament)) {
-            $this->medicaments->add($medicament);
-            $medicament->setPrescription($this);
-        }
+        $this->medicaments = $medicaments;
 
         return $this;
     }
 
-    public function removeMedicament(Medicament $medicament): static
+    public function getAvisMedecin(): ?AvisMedecin
     {
-        if ($this->medicaments->removeElement($medicament)) {
-            // set the owning side to null (unless already changed)
-            if ($medicament->getPrescription() === $this) {
-                $medicament->setPrescription(null);
-            }
-        }
+        return $this->avis_medecin;
+    }
+
+    public function setAvisMedecin(?AvisMedecin $avis_medecin): static
+    {
+        $this->avis_medecin = $avis_medecin;
 
         return $this;
     }
+
 }
