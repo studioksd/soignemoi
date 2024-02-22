@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dossier de {{ user.nom }} {{ user.prenom }} {% endblock %}
+{% block title %}Dossier de {{ user.nom|upper }} {{ user.prenom|capitalize }} {% endblock %}
 
 {% block content %}
-    <h1>Dossier de {{ user.nom }} {{ user.prenom }}</h1>
+    <h1>Dossier de {{ user.nom|upper }} {{ user.prenom|capitalize }}</h1>
     <hr>
     <h3>Informations personnelles</h3>
     <hr>
-
+    <div class="row">
+    <div class="col-md-6">
+    <p><b>{{ user.nom|upper }} {{ user.prenom|capitalize }}</b></p>
+    <p>Email : <b>{{ user.email }}</b></p>
+    <p>Adresse : <b>{{ user.adresse }}</b></p>
+    </div>
+    </div>
     <hr>
     <h3>Liste des séjours</h3>
+    <br>
     {% if sejours is empty %}
         <p>Aucun séjour trouvé.</p>
     {% else %}
@@ -19,7 +26,7 @@
                     <th>Date de début</th>
                     <th>Date de fin</th>
                     <th>Motif</th>
-                    <th>Spécialité nécessaire</th>
+                    <th>Médecin</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,15 +35,59 @@
                         <td>{{ sejour.dateDebut|date('d/m/Y') }}</td>
                         <td>{{ sejour.dateFin|date('d/m/Y') }}</td>
                         <td>{{ sejour.motif }}</td>
-                        <td>{{ sejour.specialiteNecessaire }}</td>
+                        <td>Dr. {{ sejour.medecin.nom|upper }} - {{ sejour.medecin.specialite }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <br>
     {% endif %}
     <h3>Prescriptions et avis du médecin</h3>
     <hr>
-
+    {% if prescriptions is empty %}
+        <p>Aucune prescription ni avis à ce jour.</p>
+    {% else %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Médicaments</th>
+            <th>Avis Médical</th>
+            <th>Médecin</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prescription in prescriptions %}
+        <tr>
+            <td>{{ prescription.dateDebut|date('d/m/Y') }}</td>
+            <td>{{ prescription.dateFin|date('d/m/Y') }}</td>
+            <td>
+                {% if prescription.medicaments is not empty %}
+                <ul>
+                    {% for medicament in prescription.medicaments %}
+                    <li>{{ medicament.libelle }} - {{ medicament.posologie }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                None
+                {% endif %}
+            </td>
+            <td>
+                {% if prescription.avisMedecin %}
+                <strong>Libellé:</strong> {{ prescription.avisMedecin.libelle }}<br>
+                <strong>Date:</strong> {{ prescription.avisMedecin.date|date('d/m/Y') }}<br>
+                <strong>Description:</strong> {{ prescription.avisMedecin.description }}
+                {% else %}
+                None
+                {% endif %}
+            </td>
+            <td>Dr. {{ prescription.medecin.nom|upper }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
     <hr>
     
 {% endblock %}

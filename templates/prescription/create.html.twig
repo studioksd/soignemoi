@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle prescription{% endblock %}
+
+{% block content %}
+    <h1>Nouvelle prescription</h1>
+    <form id="prescriptionsAvisForm" action="{{ path('prescription_create') }}" method="post">
+    <div class="row">
+            {{ form_start(prescriptionForm) }}
+            <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(prescriptionForm.dateDebut) }}
+                {{ form_widget(prescriptionForm.dateDebut, {'attr': {'class': 'form-control datetimepicker'}}) }}
+            </div>
+            </div>
+            <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(prescriptionForm.dateFin) }}
+                {{ form_widget(prescriptionForm.dateFin, {'attr': {'class': 'form-control datetimepicker'}}) }}
+            </div>
+            </div>
+            <div id="medicamentContainer">
+                        <button id="addMedicamentButton" type="button" class="btn btn-success" style="margin-bottom:20px;">Ajouter un médicament</button>
+
+            </div>
+            <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(prescriptionForm.medecin) }}
+                {{ form_widget(prescriptionForm.medecin, {'attr': {'class': 'form-control select2'}}) }}
+            </div>
+            </div>
+            <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(prescriptionForm.patient) }}
+                {{ form_widget(prescriptionForm.patient, {'attr': {'class': 'form-control select2'}}) }}
+            </div>
+                <button type="submit" class="btn btn-primary">Valider la prescription</button>
+<div style="display:none;"> {{ form_rest(prescriptionForm)}}
+</div>
+                    {{ form_end(prescriptionForm) }}
+
+    </div>
+
+    </form>
+{% endblock %}
+{% block javascripts %}
+{{ parent()}}
+    <script>
+    $(document).ready(function() {
+   $('#addMedicamentButton').click(function() {
+    // Create input fields for medicament libelle and posologie
+    var libelleInput = $('<input>').attr({
+        type: 'text',
+        name: 'medicament_libelle[]',
+        class: 'form-control'
+    });
+    var libelleLabel = $('<label>').text('Libellé');
+
+    var posologieInput = $('<input>').attr({
+        type: 'text',
+        name: 'medicament_posologie[]',
+        class: 'form-control'
+    });
+    var posologieLabel = $('<label>').text('Posologie');
+
+    // Create container div for the label-input pairs
+    var containerDiv = $('<div>').css({
+        display: 'flex',
+        flexDirection: 'row', // Changed flexDirection to row
+        marginBottom: '10px'
+    });
+
+    // Create col-md-6 divs for label-input pairs
+    var libelleDiv = $('<div>').addClass('col-md-6').append(libelleLabel).append(libelleInput);
+    var posologieDiv = $('<div>').addClass('col-md-6').append(posologieLabel).append(posologieInput);
+
+    // Append label-input pairs to the container div
+    containerDiv.append(libelleDiv).append(posologieDiv);
+
+    // Append container div and hr to the medicament container
+    $('#medicamentContainer').append(containerDiv).append('<hr>');
+});
+
+
+
+});
+
+    </script>
+{% endblock %}

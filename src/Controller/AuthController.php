@@ -51,7 +51,6 @@ class AuthController extends AbstractController
                 $plaintextPassword
             );
             $user->setPassword($hashedPassword);
-
             $entityManager = $this->entityManager;
             $entityManager->persist($user);
             $entityManager->flush();
@@ -68,26 +67,6 @@ class AuthController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    // #[Route('/login', name: 'app_login')]
-    // public function login(AuthenticationUtils $authenticationUtils, Security $security): Response
-    // {
-    //     if ($security->isGranted('ROLE_USER')) {
-    //         return $this->redirectToRoute('home');
-    //     }
-    //      // get the login error if there is one
-    //     $error = $authenticationUtils->getLastAuthenticationError();
-
-    //      // last username entered by the user
-    //     $lastUsername = $authenticationUtils->getLastUsername();
-
-
-    //     return $this->render('security/login.html.twig', [
-    //         'controller_name' => 'AuthController',
-    //         'last_username' => $lastUsername,
-    //          'error'         => $error,
-    //     ]);
-    // }
 
 }
 ?>

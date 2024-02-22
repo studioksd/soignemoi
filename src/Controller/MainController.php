@@ -58,10 +58,28 @@ class MainController extends AbstractController
         }
 
         $sejours = $user->getSejours();
+        $prescriptions = $user->getPrescriptions();
+        $avis = $user->getAvisMedecins();
 
         return $this->render('user/dossier.html.twig', [
             'user' => $user,
-            'sejours' => $sejours
+            'sejours' => $sejours,
+            'prescriptions' => $prescriptions,
+            'avis' => $avis,
+        ]);
+    }
+
+    #[Route('/user/index', name: 'user_index')]
+    public function userIndex(): Response
+    {
+        $users = $this->entityManager->getRepository(Utilisateur::class)->findAll();
+
+        if (!$users) {
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
         ]);
     }
 

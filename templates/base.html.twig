@@ -118,13 +118,13 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">   
-                <a href="{{path('home')}}"><h3 class="m-auto">SoigneMoi</h3></a>
+                <a href="{{path('home')}}"><h3 class="m-auto"><i class="fa fa-heartbeat"></i>&nbsp;SoigneMoi&nbsp;</h3></a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             {% if is_granted('ROLE_USER') %}
             <li class="nav-item">
-            <span class="nav-link">{{ app.user.nom }} {{ app.user.prenom }}</span>
+            <span class="nav-link">{{ app.user.nom|upper }} {{ app.user.prenom|capitalize }}</span>
             </li>
             {% else %}
             <li class="nav-item">
@@ -139,6 +139,7 @@
             <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                     {% if is_granted('ROLE_VISITEUR') %}
                      <li class="nav-item">
                         <a href="{{path('user_dashboard')}}" class="nav-link">
                         <span class="fa fa-user-o"></span>
@@ -155,14 +156,11 @@
                         </p>
                         </a>
                     </li>
-                    
+                    {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
-                    <li>
-                    <hr>
-                    </li>
                     <li class="nav-item">
                         <a href="{{path('medecin_index')}}" class="nav-link">
-                        <span class="fa fa-heartbeat"></span>
+                        <span class="fa fa-user-md"></span>
                         <p>&nbsp;
                         Médecins
                         </p>
@@ -170,9 +168,6 @@
                     </li>
                     {% endif %}
                     {% if is_granted('ROLE_SECRETAIRE') %}
-                    <li>
-                    <hr>
-                    </li>
                     <li class="nav-item">
                         <a href="{{path('sejour_index')}}" class="nav-link">
                         <span class="fa fa-calendar"></span>
@@ -183,21 +178,23 @@
                     </li>
                     {% endif %}
                     {% if is_granted('ROLE_MEDECIN') %}
-                    <li>
-                    <hr>
-                    </li>
                     <li class="nav-item">
                         <a href="{{path('prescription_create')}}" class="nav-link">
-                        <span class="fa fa-calendar"></span>
+                        <span class="fa fa-medkit"></span>
                         <p>&nbsp;
                         Nouvelle prescription
                         </p>
                         </a>
                     </li>
-                    {% endif %}
-                    <li>
-                    <hr>
+                    <li class="nav-item">
+                        <a href="{{path('user_index')}}" class="nav-link">
+                        <span class="fa fa-folder-open-o"></span>
+                        <p>&nbsp;
+                        Dossiers patients
+                        </p>
+                        </a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a href="{{ path('app_logout') }}"  class="nav-link" style="color: #dc3545;">
                         <span class="fa fa-sign-out"></span>

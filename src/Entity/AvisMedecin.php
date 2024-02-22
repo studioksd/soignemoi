@@ -30,6 +30,9 @@ class AvisMedecin
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $patient = null;
 
+    #[ORM\OneToOne(mappedBy: 'avis_medecin', cascade: ['persist', 'remove'])]
+    private ?Prescription $prescription = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,28 @@ class AvisMedecin
     public function setPatient(?Utilisateur $patient): static
     {
         $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getPrescription(): ?Prescription
+    {
+        return $this->prescription;
+    }
+
+    public function setPrescription(?Prescription $prescription): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($prescription === null && $this->prescription !== null) {
+            $this->prescription->setAvisMedecin(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($prescription !== null && $prescription->getAvisMedecin() !== $this) {
+            $prescription->setAvisMedecin($this);
+        }
+
+        $this->prescription = $prescription;
 
         return $this;
     }

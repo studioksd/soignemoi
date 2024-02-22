@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des dossiers patients{% endblock %}
+
+{% block content %}
+
+<h1>Liste des dossiers patients</h1>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            {% if 'ROLE_VISITEUR' in user.roles and 'ROLE_ADMIN' not in user.roles %}
+            <tr>
+                <td>{{ user.nom|upper }} {{ user.prenom|capitalize }}</td>
+                <td>{{ user.email }}</td>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info" style="padding-top:3px;padding-bottom:3px;">Consulter le dossier</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
